@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+ var urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
+ 
+var mostrar=function(dato){ 
+  document.getElementById("demo").innerHTML = dato;
+
+}
+  
+var traerCorredor = function(url, mostrar) {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          myObj = JSON.parse(this.responseText);
+          //document.getElementById("demo").innerHTML = myObj.name;
+         //document.getElementById("demo").innerHTML = myObj.runner.id;
+        //mostrar(myObj.runner.name);
+        mostrar(myObj.runners[0].name);
+      }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+}
+
+traerCorredor(urlRunner, mostrar);
+</script>
+
+</body>
+</html>

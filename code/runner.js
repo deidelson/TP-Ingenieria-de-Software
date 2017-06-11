@@ -11,29 +11,24 @@ var Runner = function(id,name,surname,sponsor,historyPositions) {
       //console.log(this.name);
         var self = this;
         setTimeout(function() {
-          
+
           if(historyPositions!=null){
-            
+
             if(historyPositions.length!==0){
-               
+
               callback(historyPositions[actualIx]);
-              
+
               actualIx += 1;
                 if(actualIx < historyPositions.length) {
-                   
+
                   self.run(callback);
                   }
             }
           }
-      
-          
+
+
         }, 1000);
     }
-    
-    
+
+
 };
-
-
-
-
-

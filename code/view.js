@@ -1,21 +1,25 @@
 function bootstrap() {
   var myObj;
+  var posicionesObj;
   var race1K;
   var urlPistas="https://fastspeedster.herokuapp.com/api/tracks";
+  var urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
+  var urlPosiciones="https://fastspeedster.herokuapp.com/api/positions";
 
- var urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
    var Sponsor = function(id,name) {
     this.id = id;
     this.name = name;
-
 };
 
 
 
 var mostrar=function(dato){
  console.log(dato);
-
 }
+
+// var devolverPosiciones = function(dato, idCorredor){
+//         Posiciones p = new Posiciones(dato.positions);
+// }
 /*var mostrarCorredores=function(dato){
   var runners=dato.runners;
   for (i = 0; i < runners.length; i++) {
@@ -25,6 +29,35 @@ var mostrar=function(dato){
   }
 
 }*/
+// var setearPosiciones=function(objetoPosiciones, corredor){
+//     for(var i=0; i<objetoPosiciones.positions.length;i++){
+//         if(objetoPosiciones.positions[i].runner == corredor.id){
+//           corredor.positions=objetoPosiciones.positions[i].positions;
+//           console.log("checkPoint 1");
+//           console.log(corredor.positions);
+//         }
+//     }
+// }
+
+var setearPosiciones=function(idCorredor, url){
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          myObj = JSON.parse(this.responseText);
+          var ret;
+          for(var i=0; myObj.positions[i]; i++){
+              if(myObj.positions[i].runner == idCorredor){
+                ret=myObj.positions[i].positions;
+              }
+          }
+          return ret;
+      }
+  };
+  xmlhttp.open("GET", url, false);
+  xmlhttp.send();
+}
+
+
 var transformar = function (coordenadas){
   var lista = [];
   for(var i =0; i<coordenadas.length; i++){
@@ -36,8 +69,7 @@ var transformar = function (coordenadas){
 var agregarCorredores=function(dato,race){
   var runners=dato.runners;
   for (i = 0; i < runners.length; i++) {
-
-     var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor,[
+      var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor,[
                 {lon: -58.702329, lat: -34.522739},
                 {lon: -58.702572, lat: -34.522992},
                 {lon: -58.702801, lat: -34.523191},
@@ -45,19 +77,26 @@ var agregarCorredores=function(dato,race){
                 {lon: -58.703299, lat: -34.523643}
             ]);
 
+    //  var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor,[]);
+     //
+    //       corredor.positions = setearPosiciones(runners[i].id, urlPosiciones);
+    //       console.log("checkPoint 2");
+    //       console.log(corredor.positions);
+            //Nos falta fixear esto para no hardcodear las coordenadas y traerlas de un JSON por ejemplo
+
  //   mostrar(corredor);
     race.addRunner(corredor);
   }
    race1K.start();
 }
 
-  var agregarPistas = function(dato, race){
+  var agregarPistas = function(dato, mapa){
   var pistas = dato.tracks;
   for(var i =0; i<pistas.length; i++){
     var pista = new Track(pistas[i].id, pistas[i].coordinates);
-    console.log("pista "+i+" "+pista);
+  //  console.log("pista "+i+" "+pista);
     var lista = transformar(pista.coordenadas);
-    var poligono = L.polygon(lista).addTo(race); //en race paso mapa
+    var poligono = L.polygon(lista).addTo(mapa); //en race paso mapa
   }
 }
 
@@ -132,8 +171,8 @@ var traerObjectoJson = function(url,accion,race) {
   // traerObjectoJson(urlPistas, agregarPistas,map);
 
     // Creamos un marker sobre la UNGS.
-    var ungsMarker = L.marker(ungsLocation);
-    ungsMarker.addTo(map);
+    // var ungsMarker = L.marker(ungsLocation);
+    // ungsMarker.addTo(map);
 
 
 

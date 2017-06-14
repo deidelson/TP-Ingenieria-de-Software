@@ -7,6 +7,10 @@ var Runner = function(id,name,surname,sponsor,historyPositions) {
 
     var actualIx = 0;
 
+    this.setPositions = function(posi){
+      this.positions=posi;
+    }
+
     this.run = function(callback) {
       //console.log(this.name);
         var self = this;

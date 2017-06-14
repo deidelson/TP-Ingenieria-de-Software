@@ -5,6 +5,7 @@ function bootstrap() {
   var urlPistas="https://fastspeedster.herokuapp.com/api/tracks";
   var urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
   var urlPosiciones="https://fastspeedster.herokuapp.com/api/positions";
+  var corredores = [];
 
    var Sponsor = function(id,name) {
     this.id = id;
@@ -29,33 +30,51 @@ var mostrar=function(dato){
   }
 
 }*/
-// var setearPosiciones=function(objetoPosiciones, corredor){
-//     for(var i=0; i<objetoPosiciones.positions.length;i++){
-//         if(objetoPosiciones.positions[i].runner == corredor.id){
-//           corredor.positions=objetoPosiciones.positions[i].positions;
-//           console.log("checkPoint 1");
-//           console.log(corredor.positions);
-//         }
-//     }
+var setearPosiciones=function(objetoPosiciones, race){
+    for(var i=0; i<objetoPosiciones.positions.length;i++){
+        for(var j=0; j<corredores.length; j++){
+          //  console.log(objetoPosiciones.positions[i].runner+" "+corredores[j].id);
+            if(objetoPosiciones.positions[i].runner == corredores[j].id){
+               corredores[j].positions = objetoPosiciones.positions[i].positions;
+
+               console.log("importante");
+               console.log(corredores[j].positions);
+            }
+        }
+
+        // if(objetoPosiciones.positions[i].runner == corredor.id){
+        //   corredor.positions=objetoPosiciones.positions[i].positions;
+        //   console.log("checkPoint 1");
+        //   console.log(corredor.positions);
+    }
+    console.log(corredores.length);
+    for(var i=0; i<corredores.length;i++){
+      race.addRunner(corredores[i]);
+      console.log("llegue aca ");
+      console.log(corredores[i].positions);
+    }
+    //iniciar race1K
+    race.start();
+}
+
+// var setearPosiciones=function(idCorredor, url){
+//   var xmlhttp = new XMLHttpRequest();
+//   xmlhttp.onreadystatechange = function() {
+//       if (this.readyState == 4 && this.status == 200) {
+//           myObj = JSON.parse(this.responseText);
+//           var ret;
+//           for(var i=0; myObj.positions[i]; i++){
+//               if(myObj.positions[i].runner == idCorredor){
+//                 ret=myObj.positions[i].positions;
+//               }
+//           }
+//           return ret;
+//       }
+//   };
+//   xmlhttp.open("GET", url, false);
+//   xmlhttp.send();
 // }
 
-var setearPosiciones=function(idCorredor, url){
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-          myObj = JSON.parse(this.responseText);
-          var ret;
-          for(var i=0; myObj.positions[i]; i++){
-              if(myObj.positions[i].runner == idCorredor){
-                ret=myObj.positions[i].positions;
-              }
-          }
-          return ret;
-      }
-  };
-  xmlhttp.open("GET", url, false);
-  xmlhttp.send();
-}
 
 
 var transformar = function (coordenadas){
@@ -69,14 +88,12 @@ var transformar = function (coordenadas){
 var agregarCorredores=function(dato,race){
   var runners=dato.runners;
   for (i = 0; i < runners.length; i++) {
-      var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor,[
-                {lon: -58.702329, lat: -34.522739},
-                {lon: -58.702572, lat: -34.522992},
-                {lon: -58.702801, lat: -34.523191},
-                {lon: -58.703056, lat: -34.523412},
-                {lon: -58.703299, lat: -34.523643}
-            ]);
+      var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor);
+      console.log("mock");
+      console.log(corredor.positions);
 
+      // [{"lat":-34.522739,"lon":-58.702329},{"lat":-34.522992,"lon":-58.702572},
+      // {"lat":-34.523191,"lon":-58.702801},{"lat":-34.523412,"lon":-58.703056},{"lat":-34.523643,"lon":-58.703299}])
     //  var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor,[]);
      //
     //       corredor.positions = setearPosiciones(runners[i].id, urlPosiciones);
@@ -85,9 +102,11 @@ var agregarCorredores=function(dato,race){
             //Nos falta fixear esto para no hardcodear las coordenadas y traerlas de un JSON por ejemplo
 
  //   mostrar(corredor);
-    race.addRunner(corredor);
+    corredores.push(corredor);
   }
-   race1K.start();
+  console.log("sali del primer for");
+  traerObjectoJson(urlPosiciones, setearPosiciones, race);
+   //race1K.start();
 }
 
   var agregarPistas = function(dato, mapa){
@@ -206,10 +225,13 @@ var traerObjectoJson = function(url,accion,race) {
     console.log("Competidores:");
     //race1K.addRunner(pepe);
    // race1K.addRunner(bolt);
-    traerObjectoJson(urlRunner, agregarCorredores,race1K);
-    traerObjectoJson(urlPistas, agregarPistas,map);
+  traerObjectoJson(urlRunner, agregarCorredores,race1K);
+   traerObjectoJson(urlPistas, agregarPistas,map);
 
-  race1K.start();
+
+
+
+//race1K.start();
     // START!
 
 }

@@ -34,6 +34,7 @@ var Race = function(name, map) {
 
 
     this.start = function() {
+        console.log("empezo carrera");
         this.runnersData.forEach(function(data) {
             var runner = data.runner;
             runner.run(data.updater);

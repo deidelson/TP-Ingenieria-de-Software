@@ -14,7 +14,13 @@ var Race = function(name, map) {
             console.log(newPosition);
 
             // Opción 1.
-            runnerLayer.addLayer(L.marker(newPosition));
+            var marker = L.marker(newPosition);
+            // Opción 1.
+            runnerLayer.addLayer(marker);
+			      if(runner.positions[runner.positions.length-1] != newPosition)
+				        removeRunner(runnerLayer,marker);
+
+
             // Opción 2.
             // runnerLayer.addLayer(L.circleMarker(newPosition, {
             //                         radius: 7,
@@ -32,6 +38,12 @@ var Race = function(name, map) {
         })
     }
 
+    var removeRunner = function(runnerLayer,marker){
+		setTimeout(function() {
+			 runnerLayer.removeLayer(marker);
+        }, 1000);
+		console.log("borrado");
+	   }
 
     this.start = function() {
         console.log("empezo carrera");

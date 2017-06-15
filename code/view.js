@@ -6,7 +6,7 @@ function bootstrap() {
   var urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
   var urlPosiciones="https://fastspeedster.herokuapp.com/api/positions";
   var corredores = [];
-
+  var urlCamaras= "https://fastspeedster.herokuapp.com/api/webcams/42";//camara 86
    var Sponsor = function(id,name) {
     this.id = id;
     this.name = name;

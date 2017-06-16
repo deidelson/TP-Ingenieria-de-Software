@@ -7,15 +7,54 @@ function bootstrap() {
   var urlPosiciones="https://fastspeedster.herokuapp.com/api/positions";
   var corredores = [];
   var urlCamaras= "https://fastspeedster.herokuapp.com/api/webcams/42";//camara 86
-   var Sponsor = function(id,name) {
-    this.id = id;
-    this.name = name;
-};
+
+//    var Sponsor = function(id,name) {
+//     this.id = id;
+//     this.name = name;
+// };
 
 
 
 var mostrar=function(dato){
  console.log(dato);
+}
+
+var agregarPistas = function(dato, mapa){
+var pistas = dato.tracks;
+for(var i =0; i<pistas.length; i++){
+  var pista = new Track(pistas[i].id, pistas[i].coordinates);
+//  console.log("pista "+i+" "+pista);
+  var lista = transformar(pista.coordenadas);
+  var poligono = L.polygon(lista).addTo(mapa); //en race paso mapa
+}
+}
+
+agregarCamaras=function(objetoCamaras, mapa){
+    var camaras=objetoCamaras.webcams;
+    for(var i=0; i<camaras.length; i++){
+      var camaraLayer = L.featureGroup().bindPopup("Id: "+camaras[i].id+" frecuencia: "+camaras[i].frecuency)
+      .on('click')
+      .addTo(mapa);
+      var newPosition=camaras[i].coordinate;
+
+      camaraLayer.addLayer(L.circleMarker(newPosition, {
+                              radius: 8,
+                              fillColor: "#0000FF",
+                              color: "#0000FF",
+                              weight: 1,
+                              opacity: 3,
+                              fillOpacity: 0.3
+                          }));
+      //  var marcador=L.circleMarker(newPosition, {
+      //                          radius: 8,
+      //                          fillColor: "#0000FF",
+      //                          color: "#0000FF",
+      //                          weight: 1,
+      //                          opacity: 3,
+      //                          fillOpacity: 0.3
+      //                      }).addTo(mapa);
+
+    }
 }
 
 var setearPosiciones=function(objetoPosiciones, race){
@@ -42,13 +81,7 @@ var setearPosiciones=function(objetoPosiciones, race){
 
 
 
-var transformar = function (coordenadas){
-  var lista = [];
-  for(var i =0; i<coordenadas.length; i++){
-    lista.push([coordenadas[i].lat, coordenadas[i].lon]);
-  }
-  return lista;
-}
+
 
 var agregarCorredores=function(dato,race){
   var runners=dato.runners;
@@ -59,15 +92,15 @@ var agregarCorredores=function(dato,race){
   traerObjectoJson(urlPosiciones, setearPosiciones, race);
 }
 
-  var agregarPistas = function(dato, mapa){
-  var pistas = dato.tracks;
-  for(var i =0; i<pistas.length; i++){
-    var pista = new Track(pistas[i].id, pistas[i].coordinates);
-  //  console.log("pista "+i+" "+pista);
-    var lista = transformar(pista.coordenadas);
-    var poligono = L.polygon(lista).addTo(mapa); //en race paso mapa
+var transformar = function (coordenadas){
+  var lista = [];
+  for(var i =0; i<coordenadas.length; i++){
+    lista.push([coordenadas[i].lat, coordenadas[i].lon]);
   }
+  return lista;
 }
+
+
 
 var traerObjectoJson = function(url,accion,race) {
   var xmlhttp = new XMLHttpRequest();
@@ -130,25 +163,25 @@ var traerObjectoJson = function(url,accion,race) {
 
 
     race1K = new Race("1K", map);
-    var rapiFacil= new Sponsor(1,"Rapifacil");
+  //  var rapiFacil= new Sponsor(1,"Rapifacil");
     // Bolt!
 
 
 
 
-    var bolt = new Runner(1,"Usain","Bolt",rapiFacil, [
-            {lon: -58.702329, lat: -34.522739},
-            {lon: -58.702572, lat: -34.522992},
-            {lon: -58.702801, lat: -34.523191},
-            {lon: -58.703056, lat: -34.523412},
-            {lon: -58.703299, lat: -34.523643}
-        ]);
-
-  var pepe = new Runner(2,"Pepa","Pig",rapiFacil, [
-            {lon: -58.695290, lat: -34.524297},
-            {lon: -58.697030, lat: -34.522856},
-            {lon: -58.698210, lat: -34.521874}
-        ]);
+  //   var bolt = new Runner(1,"Usain","Bolt",rapiFacil, [
+  //           {lon: -58.702329, lat: -34.522739},
+  //           {lon: -58.702572, lat: -34.522992},
+  //           {lon: -58.702801, lat: -34.523191},
+  //           {lon: -58.703056, lat: -34.523412},
+  //           {lon: -58.703299, lat: -34.523643}
+  //       ]);
+  //
+  // var pepe = new Runner(2,"Pepa","Pig",rapiFacil, [
+  //           {lon: -58.695290, lat: -34.524297},
+  //           {lon: -58.697030, lat: -34.522856},
+  //           {lon: -58.698210, lat: -34.521874}
+  //       ]);
     //
     //
 
@@ -157,7 +190,10 @@ var traerObjectoJson = function(url,accion,race) {
     console.log("Competidores:");
     //race1K.addRunner(pepe);
    // race1K.addRunner(bolt);
+
+
   traerObjectoJson(urlPistas, agregarPistas,map);
+  traerObjectoJson(urlCamaras, agregarCamaras,map);
   traerObjectoJson(urlRunner, agregarCorredores,race1K);
 
 }

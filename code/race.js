@@ -4,7 +4,11 @@ var Race = function(name, map) {
     this.runnersData = [];
     this.addRunner = function(runner) {
         //Creamos el layer en el mapa para ese runner
-        var runnerLayer = L.layerGroup().addTo(this.map);
+        //var runnerLayer = L.featureGroup().addTo(this.map);
+        var runnerLayer = L.featureGroup().bindPopup(runner.name+" "+runner.surname+"</br>Sponsor: "+runner.sponsor.name)
+        .on('click')
+        .addTo(this.map);
+        //runnerLayer.pop
         // Agregamos el layer al control
         this.map.layersControl.addOverlay(runnerLayer, runner.name);
        console.log(runner.name);

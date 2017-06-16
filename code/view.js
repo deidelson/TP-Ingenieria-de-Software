@@ -5,13 +5,14 @@ function bootstrap() {
   var urlPistas="https://fastspeedster.herokuapp.com/api/tracks";
   var urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
   var urlPosiciones="https://fastspeedster.herokuapp.com/api/positions";
+  
   var corredores = [];
   var urlCamaras= "https://fastspeedster.herokuapp.com/api/webcams/42";//camara 86
 
-//    var Sponsor = function(id,name) {
-//     this.id = id;
-//     this.name = name;
-// };
+    var Sponsor = function(id,name) {
+     this.id = id;
+     this.name = name;
+ };
 
 
 
@@ -69,18 +70,58 @@ var setearPosiciones=function(objetoPosiciones, race){
                }
 
             }
+            
         }
 
     }
+    
+    posicionesHardcodeadas();
+    
     for(var i=0; i<corredores.length;i++){
       race.addRunner(corredores[i]);
     }
+    
+     var pepe = new Runner(2,"Pepa","Pig",new Sponsor(1 ,"rapiFacil"), [
+             {lon: -58.695290, lat: -34.524297},
+             {lon: -58.697030, lat: -34.522856},
+           {lon: -58.698210, lat: -34.521874}
+        ]);
+    race.addRunner(pepe);
     race.start();
 }
 
 
 
-
+var posicionesHardcodeadas = function(){
+    //temporal para agregar posiciones al resto
+    for(var j = 0; j < corredores.length; j++){
+            if(corredores[j].id == 189){
+                var posiciones189 =[
+                    {"lat":-34.522729,"lon":-58.702319},{"lat":-34.522982,"lon":-58.702562},{"lat":-34.523181,"lon":-58.702791},{"lat":-34.523402,"lon":-58.703046},{"lat":-34.523633,"lon":-58.703289}
+                ];
+                for(var i = 0; i<posiciones189.length;i++){
+                    corredores[j].positions.push(posiciones189[i]);
+                }
+            }
+            if(corredores[j].id == 705){
+                var posiciones705 =[
+                    {"lat":-34.522419,"lon":-58.702309},{"lat":-34.522972,"lon":-58.702552},{"lat":-34.523471,"lon":-58.702781},{"lat":-34.523392,"lon":-58.703036},{"lat":-34.523423,"lon":-58.703279}
+                ];
+                for(var i = 0; i< posiciones705.length;i++){
+                    corredores[j].positions.push(posiciones705[i]);
+                }
+            }
+            if(corredores[j].id == 8){
+                var posiciones8 =[
+                    {"lat":-34.522709,"lon":-58.702299},{"lat":-34.522962,"lon":-58.702542},{"lat":-34.523161,"lon":-58.702871},{"lat":-34.523482,"lon":-58.703026},{"lat":-34.523613,"lon":-58.703269}
+                ];
+                for(var i = 0; i< posiciones8.length;i++){
+                    corredores[j].positions.push(posiciones8[i]);
+                }
+            }
+    }       
+    //fin codigo temporal*/
+}
 
 
 var agregarCorredores=function(dato,race){
@@ -89,7 +130,9 @@ var agregarCorredores=function(dato,race){
       var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor, []);
     corredores.push(corredor);
   }
+    console.log(corredores.length);
   traerObjectoJson(urlPosiciones, setearPosiciones, race);
+    
 }
 
 var transformar = function (coordenadas){

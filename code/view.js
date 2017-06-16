@@ -33,7 +33,7 @@ agregarCamaras=function(objetoCamaras, mapa){
     var camaras=objetoCamaras.webcams;
     for(var i=0; i<camaras.length; i++){
       var camaraLayer = L.featureGroup().bindPopup("Id: "+camaras[i].id+" frecuencia: "+camaras[i].frecuency)
-      .on('click')
+      .on('click', function(){})
       .addTo(mapa);
       var newPosition=camaras[i].coordinate;
 

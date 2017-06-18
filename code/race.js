@@ -17,8 +17,13 @@ var Race = function(name, map) {
             console.log("Updating view for runner: " + runner.name + "!!");
             console.log(newPosition);
 
+            var runnerIcon = L.icon({
+                iconUrl: 'runner2.png',
+                iconSize:[50, 50], // size of the icon
+            });
+
             // Opción 1.
-            var marker = L.marker(newPosition);
+            var marker = L.marker(newPosition, {icon:runnerIcon});
             // Opción 1.
             runnerLayer.addLayer(marker);
 			      if(runner.positions[runner.positions.length-1] != newPosition)

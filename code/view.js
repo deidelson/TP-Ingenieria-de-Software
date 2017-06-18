@@ -29,7 +29,7 @@ traerObjectoJson = function(url,accion,race) {
     var ungsLocation = [-34.5221554, -58.7000067];
 
     // Creación del componente mapa de Leaflet.
-    var map = L.map('mapid').setView(ungsLocation, 15);
+    var map = L.map('mapid').setView(ungsLocation, 16);
 
     // Agregamos los Layers de OpenStreetMap.
     var baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

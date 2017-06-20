@@ -13,12 +13,12 @@ var inicializar = function(race){
     traerObjectoJson(urlRunner, agregarCorredores,race1K);
 }
 
-traerObjectoJson = function(url,accion,race) {
+traerObjectoJson = function(url,callback,objetoaInyectar) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var myObj = JSON.parse(this.responseText);
-          accion(myObj,race);
+          callback(myObj,objetoaInyectar);
       }
   };
   xmlhttp.open("GET", url, true);
@@ -29,7 +29,7 @@ traerObjectoJson = function(url,accion,race) {
     var ungsLocation = [-34.5221554, -58.7000067];
 
     // Creación del componente mapa de Leaflet.
-    var map = L.map('mapid').setView(ungsLocation, 16);
+    var map = L.map('mapid').setView(ungsLocation, 17);
 
     // Agregamos los Layers de OpenStreetMap.
     var baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

@@ -47,7 +47,6 @@ var agregarCorredores=function(dato,race){
       var corredor=new Runner(runners[i].id,runners[i].name,runners[i].surname,runners[i].sponsor, []);
     corredores.push(corredor);
   }
-  estanCorredores=true;
   traerObjectoJson(urlPosiciones, setearPosiciones,race);
 }
 
@@ -64,10 +63,9 @@ var setearPosiciones=function(objetoPosiciones, race){
             }
         }
     }
-    
+
     for(var i=0; i<corredores.length;i++){
       race.addRunner(corredores[i]);
     }
-    estanPosiciones=true;
     race.start();
 }

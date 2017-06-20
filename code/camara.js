@@ -15,18 +15,9 @@ agregarCamaras=function(objetoCamaras, mapa){
 
       var camaraIcon = L.icon({
           iconUrl: 'camara1.png',
-          //shadowUrl: 'leaf-shadow.png',
-
           iconSize:     [25, 25] // size of the icon
-        /*  shadowSize:   [15, 20], // size of the shadow
-          iconAnchor:   [15, 20], // point of the icon which will correspond to marker's location
-          shadowAnchor: [4, 62],  // the same for the shadow
-          popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor */
       });
-
-
       var marker = L.marker(newPosition, {icon: camaraIcon});
-
       camaraLayer.addLayer(marker);
       }
 }

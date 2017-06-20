@@ -1,4 +1,5 @@
 function bootstrap() {
+  
   corredores = [];
   var race1K;
   urlRunner = "https://fastspeedster.herokuapp.com/api/runners";
@@ -17,6 +18,7 @@ traerObjectoJson = function(url,callback,objetoaInyectar) {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
+        //parseo
           var myObj = JSON.parse(this.responseText);
           callback(myObj,objetoaInyectar);
       }

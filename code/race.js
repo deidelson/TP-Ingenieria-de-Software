@@ -19,7 +19,7 @@ var Race = function(name, map) {
 
             var runnerIcon = L.icon({
                 iconUrl: 'runner2.png',
-                iconSize:[70, 70], // size of the icon
+                iconSize:[35, 35], // size of the icon
             });
 
             // Opción 1.

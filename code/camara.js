@@ -17,7 +17,7 @@ agregarCamaras=function(objetoCamaras, mapa){
           iconUrl: 'camara1.png',
           //shadowUrl: 'leaf-shadow.png',
 
-          iconSize:     [35, 35], // size of the icon
+          iconSize:     [25, 25] // size of the icon
         /*  shadowSize:   [15, 20], // size of the shadow
           iconAnchor:   [15, 20], // point of the icon which will correspond to marker's location
           shadowAnchor: [4, 62],  // the same for the shadow

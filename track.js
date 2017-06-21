@@ -11,7 +11,7 @@ var agregarPistas = function(dato, mapa){
       var pista = new Track(pistas[i].id, pistas[i].coordinates);
     //  console.log("pista "+i+" "+pista);
       var lista = transformar(pista.coordenadas);
-      var poligono = L.polygon(lista).addTo(mapa); //en race paso mapa
+      var poligono = L.polyline(lista).addTo(mapa); //en race paso mapa
     }
 }
 
